@@ -20,10 +20,19 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/users/register', formData);
+      const response = await axios.post(
+        'http://localhost:8000/users/login', 
+        formData, // Send your form data here
+        {
+          withCredentials: true, // Ensure cookies are sent and received
+          headers: {
+            'Content-Type': 'application/json', // Ensure content type is set to JSON
+          },
+        }
+      );
       setUser(response.data.user);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate('/')
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Error during registration:', error);
     }
